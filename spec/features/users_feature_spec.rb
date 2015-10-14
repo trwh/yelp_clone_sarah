@@ -43,6 +43,34 @@ feature 'Users can only edit their own material' do
     scenario 'it does not allow to create a restaurant' do
       visit '/restaurants'
       expect(page).not_to have_link 'Add a restaurant'
+    end
+  end
+
+end
+
+feature 'Users can only review a restaurant once' do
+
+  context 'user has signed in and reviewed a restaurant already' do
+    scenario 'it does not allow the user to add another review to same \
+      restaurant' do
+      visit('/')
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+
+      expect(page).not_to have_link 'Review KFC'
+
       # fill_in 'Name', with: 'The Ox'
       # click_button 'Create Restaurant'
       # expect(page).to have_content 'The Ox'
