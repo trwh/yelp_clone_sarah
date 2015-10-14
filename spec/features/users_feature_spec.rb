@@ -36,3 +36,18 @@ feature "User can sign in and out" do
     end
   end
 end
+
+feature 'Users can only edit their own material' do
+
+  context 'user not signed in' do
+    scenario 'it does not allow to create a restaurant' do
+      visit '/restaurants'
+      expect(page).not_to have_link 'Add a restaurant'
+      # fill_in 'Name', with: 'The Ox'
+      # click_button 'Create Restaurant'
+      # expect(page).to have_content 'The Ox'
+      # expect(current_path).to eq '/restaurants'
+    end
+  end
+
+end
